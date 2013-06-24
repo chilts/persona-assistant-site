@@ -1,0 +1,5 @@
+[persona-assistant.localhost.chilts.org]
+type=proxy
+host=localhost
+port=8080
+

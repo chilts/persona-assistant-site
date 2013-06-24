@@ -1,0 +1,102 @@
+extends layout
+
+block content
+
+  .splash.pure-u-1
+
+    .pure-g-r
+      .pure-u-1-3
+        .l-box.splash-image
+          img(src="/s/img/persona-logo.png",alt="Placeholder image for example.")
+
+      .pure-u-2-3
+        .l-box.splash-text
+          h1.splash-head Persona Assistant
+
+          h2.splash-subhead.
+            This jQuery plugin is designed to help you implement Persona on your frontend for your website.  It tries
+            to help for two main use-cases: (1) single page apps, and (2) traditional sites, however it can be used in
+            a number of different ways. Please see the <a href="/examples">examples</a> for details.
+
+          p
+            a#persona-login.persona-logged-out.hide(href="#")
+              img(src="/s/img/login.png")
+            span.persona-loading.hide Loading ...
+            span.persona-logged-in.hide
+              | Hello 
+              span.persona-email= email
+              |  | 
+              a#persona-logout(href="#") Sign Out
+            p (Note: this is a small example of a single-page application.)
+            &nbsp;
+
+  .content.pure-u-1
+
+    .pure-g-r.content-ribbon
+      .pure-u-2-3
+        .l-box
+          h4.content-subhead Example 1
+
+          h3 Lorem ipsum dolor sit amet.
+          p.
+            Pellentesque hendrerit lobortis ornare. Fusce luctus imperdiet consequat. Nullam quis nunc quis ligula
+            luctus vestibulum non quis libero. Suspendisse tristique nisl ut velit facilisis sit amet lobortis
+            nulla pharetra.
+
+      .pure-u-1-3
+        .l-box
+          img(src="http://placehold.it/400x250",alt="Placeholder image for example.")
+
+    .pure-g-r.content-ribbon
+      .pure-u-1-3
+        .l-box
+          img(src="http://placehold.it/400x250",alt="Placeholder image for example.")
+
+      .pure-u-2-3
+        .l-box
+          h4.content-subhead Some more small text
+
+          h3 Etiam iaculis iaculis lobortis.
+          p.
+            Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum. Morbi
+            fermentum dui sit amet libero tincidunt rutrum. Nam sodales consequat metus sed accumsan.
+
+    .pure-g-r
+      .pure-u-1-4
+        .l-box
+          h3 Subheading
+          p.
+            Donec suscipit, risus vel venenatis ornare, nibh massa ultrices diam, a elementum metus felis sit amet
+            eros. Phasellus pellentesque euismod massa sed pellentesque.
+
+      .pure-u-1-4
+        .l-box
+          h3 Subheading
+          p.
+            Donec suscipit, risus vel venenatis ornare, nibh massa ultrices diam, a elementum metus felis sit amet
+            eros. Phasellus pellentesque euismod massa sed pellentesque.
+
+      .pure-u-1-4
+        .l-box
+          h3 Subheading
+          p.
+            Donec suscipit, risus vel venenatis ornare, nibh massa ultrices diam, a elementum metus felis sit amet
+            eros. Phasellus pellentesque euismod massa sed pellentesque.
+
+      .pure-u-1-4
+        .l-box
+          h3 Your Privacy
+          p
+            | This site doesn't store anything related to your Persona login, not even your email address. 
+            a(href="http://expressjs.com/api.html#cookieSession") Cookie Sessions
+            |  are used so the sessions reside in the cookie and are not saved on the server at all.
+
+    .pure-g-r
+      .pure-u-1
+        .l-box.ribbon
+          h2
+            | Read more about 
+            a.pure-button.pure-button-primary(href="https://login.persona.org/") Persona
+
+append js
+  script(src="/s/js/index.js")

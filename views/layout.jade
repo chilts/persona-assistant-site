@@ -1,0 +1,39 @@
+!!!
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport",content="width=device-width, initial-scale=1.0")
+    title Persona Assistant
+    link(rel="stylesheet",href="http://yui.yahooapis.com/pure/0.2.0/pure-min.css")
+    link(rel="stylesheet",href="/s/css/site.css")
+
+  body(data-email=email || '')
+
+    .content.pure-g-r
+      .header.pure-u-1
+        .pure-menu.pure-menu-open.pure-menu-fixed.pure-menu-horizontal
+          a.pure-menu-heading(href="/") Persona Assistant
+
+          ul
+            li.pure-menu-selected
+              a(href="/") Home
+            li
+              a(href="#ToDo") Examples
+            li
+              a(href="#ToDo") API
+            li
+              a(href="#ToDo") Code
+            li
+              a(href="#ToDo") About
+
+      block content
+
+      .footer.pure-u-1 Persona Assistant
+        | by 
+        a(href="http://chilts.org/blog/") Andrew Chilton
+        | .
+
+    block js
+      script(src="https://login.persona.org/include.js")
+      script(src="http://code.jquery.com/jquery-2.0.0.min.js")
+      script(src="/s/js/jquery.persona-assistant.js")

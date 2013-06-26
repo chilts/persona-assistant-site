@@ -110,9 +110,6 @@
                 }
             });
 
-            // finally, watch what's happening
-            navigator.id.watch();
-
             return this;
         }
 

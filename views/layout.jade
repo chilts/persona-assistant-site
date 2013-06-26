@@ -18,15 +18,24 @@ html(lang="en")
             li.pure-menu-selected
               a(href="/") Home
             li
-              a(href="#ToDo") Examples
+              a(href="#examples") Examples
             li
-              a(href="#ToDo") API
+              a(href="/api") API
             li
-              a(href="#ToDo") Code
-            li
-              a(href="#ToDo") About
+              a(href="https://github.com/chilts/jquery.persona-assistant.js/",target="_blank") Code
+            // li
+            //   a(href="#ToDo") About
+
+          block sign-in
 
       block content
+
+      .pure-g-r
+        .pure-u-1
+          .l-box.ribbon
+            h2
+              | Read more about 
+              a.pure-button.pure-button-primary(href="https://login.persona.org/") Persona
 
       .footer.pure-u-1 Persona Assistant
         | by 

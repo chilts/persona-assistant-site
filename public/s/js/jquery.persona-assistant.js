@@ -24,8 +24,13 @@
             var opts = $.extend({}, $.fn.personaAssistant.defaults, options);
             $body.data('opts', opts);
 
-            // get the user
+            // get the user - if it's the empty string, set it to be null which is more appropriate
+            // From: https://developer.mozilla.org/en-US/docs/Web/API/navigator.id.watch#Parameters
             var user = $body.data('email');
+            if ( user === '' ) {
+                user = null;
+            }
+            console.log('Got user ' + user);
 
             // setup some functions which can help us
             function showLoggedIn() {
@@ -64,6 +69,8 @@
             $(opts.logoutBtn).click(function(ev) {
                 ev.preventDefault();
                 console.log('Clicked logout ...');
+
+                // after this is called, the onlogout() event from navigator.id.watch() will be called
                 navigator.id.logout();
             });
 
@@ -79,9 +86,10 @@
                     // show only the loading elements
                     showLoading();
 
+                    console.log('*** calling POST ' + opts.loginJsonUrl + ' ***');
                     $.ajax({
                         type: 'POST',
-                        url: '/login',
+                        url: opts.loginJsonUrl,
                         data: { assertion : assertion },
                         success: function(res, status, xhr) {
                             console.log(res);
@@ -91,8 +99,13 @@
                             // ... and show it on the page (if opts.storeEmailSelector matches any element)
                             $(opts.storeEmailSelector).text(res.email);
 
-                            // now show the relevant things
-                            showLoggedIn();
+                            // redirect or show depending on the mode
+                            if ( opts.mode === 'classic' ) {
+                                window.location.reload(true);
+                            }
+                            else {
+                                showLoggedIn();
+                            }
                         },
                         error: function(xhr, status, err) {
                             navigator.id.logout();
@@ -106,7 +119,13 @@
                     // A user has logged out! Here you need to:
                     // Tear down the user's session by redirecting the user or making a call to your backend.
                     console.log('onlogout(): entry');
-                    showLoggedOut();
+                    if ( opts.mode === 'classic' ) {
+                        window.location = opts.logoutUrl;
+                    }
+                    else {
+                        // ToDo
+                        showLoggedOut();
+                    }
                 }
             });
 
@@ -140,11 +159,16 @@
         loggedOutSelector  : '.persona-logged-out',
 
         // buttons to log in/out
-        loginBtn           : '#persona-login',
-        logoutBtn          : '#persona-logout',
+        loginBtn           : '.persona-login',
+        logoutBtn          : '.persona-logout',
 
         // where to set the email we received back (optional)
         storeEmailSelector : '.persona-email',
+
+        // urls we should hit at various times
+        loginJsonUrl       : '/login.json',
+        logoutUrl          : '/logout',
+        logoutJsonUrl      : '/logout.json',
 
         // events you can listen on so you can do something else appropriate
         onLogin            : function(user) {},

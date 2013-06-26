@@ -15,21 +15,21 @@ block content
 
           h2.splash-subhead.
             This jQuery plugin is designed to help you implement Persona on your frontend for your website.  It tries
-            to help for two main use-cases: (1) single page apps, and (2) traditional sites, however it can be used in
-            a number of different ways. Please see the <a href="/examples">examples</a> for details.
+            to help for two main use-cases: (1) single page apps, and (2) classic sites, however it can be used in
+            a number of different ways. Please see the <a href="#examples">examples</a> for details.
 
           p
-            a#persona-login.persona-logged-out.hide(href="#")
+            a.persona-login.persona-logged-out.hide(href="#")
               img(src="/s/img/login.png")
             span.persona-loading.hide Loading ...
             span.persona-logged-in.hide
               | Hello 
               span.persona-email= email
               |  | 
-              a#persona-logout(href="#") Sign Out
-            p (Note: this is a small example of a single-page application.)
-            &nbsp;
+              a.persona-logout(href="#") Sign Out
+          p (Note: this is a small example of a single-page application.)
 
+  a(name="examples")
   .content.pure-u-1
 
     .pure-g-r.content-ribbon
@@ -37,11 +37,17 @@ block content
         .l-box
           h4.content-subhead Example 1
 
-          h3 Lorem ipsum dolor sit amet.
+          h3 Classic Mode
           p.
-            Pellentesque hendrerit lobortis ornare. Fusce luctus imperdiet consequat. Nullam quis nunc quis ligula
-            luctus vestibulum non quis libero. Suspendisse tristique nisl ut velit facilisis sit amet lobortis
-            nulla pharetra.
+            In this sense, Classic Mode is one when your users generally click from page to page, loading up a fresh
+            page on most clicks. Each time a page is displayed we need to re-initialise
+            <code>browser.id.watch()</code>. Persona Assistant helps you with validating the person you think is logged
+            in as well as reloading the page if this state changes.
+
+          p
+            | See the 
+            a(href="/classic") Classic Mode
+            |  example.
 
       .pure-u-1-3
         .l-box
@@ -54,12 +60,18 @@ block content
 
       .pure-u-2-3
         .l-box
-          h4.content-subhead Some more small text
+          h4.content-subhead Example 2
 
-          h3 Etiam iaculis iaculis lobortis.
+          h3 Single Page Application Mode
           p.
-            Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum. Morbi
-            fermentum dui sit amet libero tincidunt rutrum. Nam sodales consequat metus sed accumsan.
+            Using the Single Page Mode feature of Persona Assistant helps you with showing or hiding DOM elements on
+            the page depending on whether the user is logged in/out or if their logged in state changes. It can also
+            delete certain DOM elements on logout as well as firing events at certain times.
+
+          p
+            | See the Single Page 
+            a(href="/application") Application Mode
+            |  example.
 
     .pure-g-r
       .pure-u-1-4
@@ -90,13 +102,6 @@ block content
             | This site doesn't store anything related to your Persona login, not even your email address. 
             a(href="http://expressjs.com/api.html#cookieSession") Cookie Sessions
             |  are used so the sessions reside in the cookie and are not saved on the server at all.
-
-    .pure-g-r
-      .pure-u-1
-        .l-box.ribbon
-          h2
-            | Read more about 
-            a.pure-button.pure-button-primary(href="https://login.persona.org/") Persona
 
 append js
   script(src="/s/js/index.js")

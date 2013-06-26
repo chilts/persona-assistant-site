@@ -34,9 +34,10 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.use(express.logger());
+// app.use(express.logger());
 
-app.use(express.static(__dirname + '/public'));
+var oneDay = 24 * 60 * 60 * 1000; // 86400000
+app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
 
 app.use(express.bodyParser());
 
@@ -52,15 +53,34 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
+    log('GET /: entry');
     res.render('index.jade');
 });
 
+app.get('/classic', function(req, res) {
+    log('GET /classic: entry');
+    res.render('classic.jade');
+});
+
+app.get('/application', function(req, res) {
+    log('GET /application: entry');
+    res.render('application.jade');
+});
+
 app.post('/login', function(req, res) {
+    log('POST /login: entry');
+    res.redirect('/login.json');
+});
+
+app.post('/login.json', function(req, res) {
+    log('POST /login.json: entry');
 
     var assertion = req.body.assertion;
 
+    log('* assertion = ' + assertion);
+    log('* audience  = ' + audience);
+
     // curl -d "assertion=<ASSERTION>&audience=https://example.com:443" "https://verifier.login.persona.org/verify"
-    log('Got /login');
     request
         .post('https://verifier.login.persona.org/verify')
         .send({ assertion : assertion, audience : audience })
@@ -68,18 +88,34 @@ app.post('/login', function(req, res) {
             var body = result.res.body;
             if ( body.status === 'okay' ) {
                 // save the email to the session
+                log2('body.status=okay : ' + JSON.stringify(body));
                 req.session.email = body.email;
                 res.json({ ok : true, email : 'andychilton@gmail.com' });
             }
             else {
-                delete req.session.email;
+                req.session = null;
+                log2('reason=' + body.reason);
                 res.json({ ok : false, msg : body.reason });
             }
         })
     ;
 });
 
-app.post('/logout', function(req, res) {
+app.get('/logout', function(req, res) {
+    log('GET /logout: entry');
+    req.session = null;
+    res.redirect('/classic');
+});
+
+app.get('/logout.json', function(req, res) {
+    log('GET /logout.json: entry');
+    req.session.email = '';
+    req.session = null;
+    res.json({ ok : true });
+});
+
+app.post('/logout.json', function(req, res) {
+    log('POST /logout.json: entry');
     req.session = null;
     res.json({ ok : true });
 });
@@ -90,7 +126,7 @@ app.post('/logout', function(req, res) {
 var server = http.createServer(app);
 var port = 8080;
 server.listen(port, function() {
-    log('Server listening on port %s', port);
+    log('Server listening on port ' + port);
 });
 
 // ----------------------------------------------------------------------------

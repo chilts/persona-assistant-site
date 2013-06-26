@@ -1,0 +1,71 @@
+extends layout
+
+block content
+
+  .content.pure-u-1
+
+    .pure-g-r.content-ribbon
+      .pure-u-2-3
+        .l-box
+          h4.content-subhead Classic Mode
+
+          p.
+            In this sense, Classic Mode is one when your users generally click from page to page, loading up a fresh
+            page on most clicks. Each time a page is displayed we need to re-initialise
+            <code>browser.id.watch()</code>. Persona Assistant helps you with validating the person you think is logged
+            in as well as reloading the page if this state changes.
+
+          h3 Example
+
+          p.
+            To use classic mode in it's simplest form, use the following code in your <code>onready</code> handler:
+
+          pre.
+            $(function() {
+              $('body').personaAssistant({
+                mode : 'classic'
+              });
+            });
+
+          p.
+            Using this code means that much of the work <code>personaAssistant</code> is doing for you is from
+            using it's default values. In many cases this is all you need, in others you'll have to set some of
+            those yourself.
+
+          h3 Default Values
+
+          p.
+            The following is a list of the default value for the plugin which are related to <code>'classic'</code>
+            mode.
+
+          pre.
+            {
+                mode               : 'classic',
+                loginJsonUrl       : '/login.json',
+                logoutUrl          : '/logout',
+                loggedInSelector   : '.persona-logged-in',
+                loadingSelector    : '.persona-loading',
+                loggedOutSelector  : '.persona-logged-out',
+                loginBtn           : '.persona-login',
+                logoutBtn          : '.persona-logout',
+                storeEmailSelector : '.persona-email',
+            }
+
+      .pure-u-1-3
+        .l-box
+          img(src="http://placehold.it/400x250",alt="Placeholder image for example.")
+
+append js
+  script(src="/s/js/classic.js")
+
+block sign-in
+  div.pull-right.pure-menu-heading(style="text-transform: none;")
+    span.persona-loading.hide Loading ...
+    if email
+      span.persona-logged-in
+        span.persona-email= email
+        |  | 
+        a.persona-logout(href="/logout",style="display: inline; padding: 0;") Sign Out
+    else
+      a.persona-login.persona-logged-out(href="#")
+        img(src="/s/img/login.png")

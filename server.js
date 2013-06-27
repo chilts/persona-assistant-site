@@ -33,6 +33,9 @@ var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.configure('development', function(){
+    app.locals.pretty = true;
+});
 
 // app.use(express.logger());
 

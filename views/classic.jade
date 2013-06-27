@@ -32,6 +32,25 @@ block content
             using it's default values. In many cases this is all you need, in others you'll have to set some of
             those yourself.
 
+          h3 Showing/Hiding Sign In/Loading/Sign Out
+
+          p.
+             In general, even though <code>Persona Assistant</code> talks about three states, since you're in classic mode
+             only two are needed when you think the user is logged out, but just one when you think the user is logged
+             in. For example, consider the following Jade (assuming you have set <code>res.locals.email</code> to the email
+             address from the user's session):
+
+          pre.
+            div.persona-loading Loading ...
+            if email
+              div.persona-logged-in
+                span.persona-email= email
+                |  - 
+                a.persona-logout(href="/logout") Sign Out
+            else
+              div.persona-logged-out
+                a.persona-login(href="/login") Sign in with Persona
+
           h3 Default Values
 
           p.

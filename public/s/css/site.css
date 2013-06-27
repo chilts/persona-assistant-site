@@ -94,3 +94,15 @@ body .primary-button {
 .pull-right {
     float: right;
 }
+
+.profile {
+    float: right;
+}
+
+.profile a.persona-login {
+    margin: 0;
+}
+
+.profile a.persona-login img {
+    vertical-align: middle;
+}

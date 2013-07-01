@@ -70,6 +70,11 @@ app.get('/application', function(req, res) {
     res.render('application.jade');
 });
 
+app.get('/api', function(req, res) {
+    log('GET /api: entry');
+    res.render('api.jade');
+});
+
 app.post('/login', function(req, res) {
     log('POST /login: entry');
     res.redirect('/login.json');

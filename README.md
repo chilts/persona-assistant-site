@@ -14,8 +14,8 @@ This site has two purposes:
 To try out this example site, clone this repo, install the dependencies and run it:
 
 ```
-$ git clone https://github.com/chilts/persona-assistant.chilts.org.git
-$ cd persona-assistant.chilts.org
+$ git clone https://github.com/chilts/persona-assistant-site.git
+$ cd persona-assistant-site
 $ npm install
 $ node server.js http://localhost:8080/
 ```

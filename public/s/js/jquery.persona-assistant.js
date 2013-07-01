@@ -26,24 +26,23 @@
 
             // get the user - if it's the empty string, set it to be null which is more appropriate
             // From: https://developer.mozilla.org/en-US/docs/Web/API/navigator.id.watch#Parameters
-            var user = $body.data('email');
-            if ( user === '' ) {
-                user = null;
-            }
-            console.log('Got user ' + user);
+            var user = $body.data('email') || null;
 
             // setup some functions which can help us
             function showLoggedIn() {
+                console.log('showLoggedIn() : entry');
                 $(opts.loggedInSelector).show();
                 $(opts.loadingSelector).hide();
                 $(opts.loggedOutSelector).hide();
             }
             function showLoading() {
+                console.log('showLoading() : entry');
                 $(opts.loggedInSelector).hide();
                 $(opts.loadingSelector).show();
                 $(opts.loggedOutSelector).hide();
             }
             function showLoggedOut() {
+                console.log('showLoggedOut() : entry');
                 $(opts.loggedInSelector).hide();
                 $(opts.loadingSelector).hide();
                 $(opts.loggedOutSelector).show();
@@ -96,6 +95,7 @@
 
                             // store the email address on $body
                             $body.data('email', res.email);
+
                             // ... and show it on the page (if opts.storeEmailSelector matches any element)
                             $(opts.storeEmailSelector).text(res.email);
 
@@ -105,6 +105,7 @@
                             }
                             else {
                                 showLoggedIn();
+                                opts.onLogin(res);
                             }
                         },
                         error: function(xhr, status, err) {
@@ -119,12 +120,22 @@
                     // A user has logged out! Here you need to:
                     // Tear down the user's session by redirecting the user or making a call to your backend.
                     console.log('onlogout(): entry');
+
+                    // wipe the email that we think is logged in
+                    $body.data('email', '');
+
                     if ( opts.mode === 'classic' ) {
                         window.location = opts.logoutUrl;
                     }
                     else {
-                        // ToDo
                         showLoggedOut();
+                        $(opts.onLogoutDeleteSelector).remove();
+
+                        // if this is still on the page, make it blank
+                        $(opts.storeEmailSelector).text('');
+
+                        // finally, call the listener
+                        opts.onLogout();
                     }
                 }
             });
@@ -170,10 +181,16 @@
         logoutUrl          : '/logout',
         logoutJsonUrl      : '/logout.json',
 
+        // --- options for 'classic' mode ---
+
+        // --- options for 'application' mode ---
+        // queries to remove elements from the page when logged out (application
+        onLogoutRemoveSelector : '.persona-logout-remove',
         // events you can listen on so you can do something else appropriate
-        onLogin            : function(user) {},
-        onLogout           : function() {},
-        onLoading          : function() {}
+        onLogin                : function(user) {},
+        onLogout               : function() {},
+        onLoading              : function() {}
+
     };
 
 })(jQuery);

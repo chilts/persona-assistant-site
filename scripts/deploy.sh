@@ -12,7 +12,7 @@ git pull --rebase
 echo
 
 echo "Calling install.sh ..."
-./install.sh
+./scripts/install.sh
 echo
 
 echo

@@ -17,10 +17,10 @@ set -e
 
 ## ----------------------------------------------------------------------------
 
-WHOAMI=`id -un`
-GROUP=`id -gn`
-PWD=`pwd`
-NODE=`which node`
+THIS_WHOAMI=`id -un`
+THIS_GROUP=`id -gn`
+THIS_PWD=`pwd`
+THIS_NODE=`which node`
 
 ## ----------------------------------------------------------------------------
 

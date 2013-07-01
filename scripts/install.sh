@@ -17,7 +17,7 @@ set -e
 
 ## ----------------------------------------------------------------------------
 
-THIS_WHOAMI=`id -un`
+THIS_USER=`id -un`
 THIS_GROUP=`id -gn`
 THIS_PWD=`pwd`
 THIS_NODE=`which node`

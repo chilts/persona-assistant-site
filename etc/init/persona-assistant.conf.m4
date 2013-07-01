@@ -22,9 +22,10 @@ script
 
     # run the webserver
     exec \
-        sudo -E -u __USER__ \
-        __NODE__ \
-        __PWD__/server.js >> /var/log/persona-assistant/access.log
+        sudo -E -u __USER__   \
+        __NODE__              \
+        __PWD__/server.js     \
+        http://persona-assistant.chilts.org/ >> /var/log/persona-assistant/access.log
 
 end script
 

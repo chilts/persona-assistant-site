@@ -85,9 +85,6 @@ app.post('/login.json', function(req, res) {
 
     var assertion = req.body.assertion;
 
-    log('* assertion = ' + assertion);
-    log('* audience  = ' + audience);
-
     // curl -d "assertion=<ASSERTION>&audience=https://example.com:443" "https://verifier.login.persona.org/verify"
     request
         .post('https://verifier.login.persona.org/verify')

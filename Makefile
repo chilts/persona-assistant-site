@@ -1,7 +1,7 @@
 all:
 
 server: clean
-	ENVIRONMENT=development node server.js http://persona-assistant.localhost.chilts.org/
+	NODE_ENV=development supervisor --no-restart-on error -- server.js http://persona-assistant.localhost.chilts.org/ 8080
 
 clean:
 	find . -name '*~' -delete

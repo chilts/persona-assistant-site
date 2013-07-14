@@ -25,7 +25,7 @@ script
         sudo -E -u __USER__   \
         __NODE__              \
         __PWD__/server.js     \
-        http://persona-assistant.chilts.org/ >> /var/log/persona-assistant/access.log
+        http://persona-assistant.chilts.org/ 8080 >> /var/log/persona-assistant/access.log
 
 end script
 

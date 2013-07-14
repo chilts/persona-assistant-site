@@ -24,6 +24,7 @@ process.title = 'persona-assistant.chilts.org';
 
 // set the audience from the arg passed in
 var audience = process.argv[2];
+var port     = process.argv[3] || 8080;
 
 // create the logger (for stdout)
 var log = log2();
@@ -131,7 +132,6 @@ app.post('/logout.json', function(req, res) {
 // start the server
 
 var server = http.createServer(app);
-var port = 8080;
 server.listen(port, function() {
     log('Server listening on port ' + port);
 });

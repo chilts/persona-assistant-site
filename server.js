@@ -36,19 +36,22 @@ var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.configure('development', function(){
-    app.locals.pretty = true;
-});
 
-// app.use(express.logger());
+// configure some app vars
+app.use(function(req, res, next) {
+    if ( process.env.NODE_ENV === 'development' ) {
+        app.locals.pretty = true;
+    }
+    app.locals.env = process.env.NODE_ENV;
+    next();
+});
 
 var oneDay = 24 * 60 * 60 * 1000; // 86400000
 app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
 
+app.use(express.logger());
 app.use(express.bodyParser());
-
 app.use(express.cookieParser(passgen.create(16)));
-
 app.use(express.cookieSession({
     secret : passgen.create(16)
 }));
@@ -57,6 +60,9 @@ app.use(function(req, res, next) {
     res.locals.email = req.session.email || '';
     next();
 });
+
+// ----------------------------------------------------------------------------
+// the router
 
 app.get('/', function(req, res) {
     log('GET /: entry');

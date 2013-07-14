@@ -17,6 +17,8 @@ var passgen = require('passgen');
 var request = require('superagent');
 var log2 = require('log2');
 
+process.title = 'persona-assistant.chilts.org';
+
 // ----------------------------------------------------------------------------
 // some globals
 

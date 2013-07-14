@@ -1,6 +1,6 @@
 $(function() {
 
-    $('body').personaAssistant({
+    $.personaAssistant({
         mode : 'classic'
     });
 

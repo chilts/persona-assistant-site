@@ -7,10 +7,180 @@ block content
     .pure-g-r.content-ribbon
       .pure-u-2-3
         .l-box
-          h4.content-subhead API
+          h4.content-suhead Defaults
 
           p.
-            ToDo.
+            The defaults for Persona Assistant are as follows. These are independent of which mode you specify.
+            However, they will be accentuated with any extra defaults (below) dependent on the mode you choose.
+            If you choose to pass in an invalid mode, then these defaults are the only ones applied to your
+            options.
+
+          pre.
+            {
+              mode                   : 'classic',
+              loggedInSelector       : '.persona-logged-in',
+              loadingSelector        : '.persona-loading',
+              loggedOutSelector      : '.persona-logged-out',
+              loginBtnSelector       : '.persona-login',
+              logoutBtnSelector      : '.persona-logout',
+              showEmailSelector      : '.persona-email'
+              loginJsonUrl           : '/login.json',
+              logoutUrl              : '/logout'
+            }
+
+          h5.content-subhead mode
+
+          p.
+            The 'mode' parameter is essentially a set of defaults so that it is easy for you to set up
+            Persona Assistant. The following options are set when you specify either <code>classic</code>
+            or <code>application</code> mode.
+
+          h6.content-subhead classic
+
+          p.
+            For <code>classic</code> mode, there are no extra defaults besides the regular defaults (above).
+
+          h6.content-subhead application
+
+          p.
+            For <code>application</code> mode, the following defaults are added to your options, which you may also
+            override if necessary.
+
+          pre.
+            {
+              logoutJsonUrl          : '/logout.json',
+              onLogoutRemoveSelector : '.persona-logout-remove',
+              onLogin                : function(result) {},
+              onLogout               : function() {},
+              onLoading              : function() {}
+            }
+
+          h4.content-suhead Options
+
+          h5.content-subhead loggedInSelector
+          p.
+            Default: <code>'.persona-logged-in'</code>
+          p.
+            This selector is used when showing which elements you want to show when a user is logged in. The selector
+            is passed straight to <code>$(loggedInSelector).hide()</code>.
+
+          h5.content-subhead loadingSelector
+          p.
+            Default: <code>'.persona-loading'</code>
+          p.
+            This selector is used when showing which elements you want to show when Persona is loading to see if a user
+            is logged in or not. The selector is passed straight to <code>$(loadingSelecter).hide()</code>.
+
+          h5.content-subhead loggedOutSelector
+          p.
+            Default: <code>'.persona-logged-out'</code>
+          p.
+            This selector is used when showing which elements you want to show when a user is logged out. The selector
+            is passed straight to <code>$(loggedOutSelector).hide()</code>. When in 'classic' mode, you may choose
+            not to have any of these elements on the screen, since you will probably be refreshing the entire page
+            anyway (if the selector selects zero DOM elements, that's fine).
+
+          h5.content-subhead loginBtnSelector
+          p.
+            Default: <code>'.persona-login'</code>
+          p.
+            This selector is used so that Persona Assistant knows which elements are login buttons/links. It attaches
+            a <code>.click()</code> handler to the element(s) and instigates a login action.
+
+          h5.content-subhead logoutBtnSelector
+          p.
+            Default: <code>'.persona-logout'</code>
+          p.
+            This selector is used so that Persona Assistant knows which elements are logout buttons/links. It attaches
+            a <code>.click()</code> handler to the element(s) and instigates a logout action.
+
+          h5.content-subhead showEmailSelector
+          p.
+            Default: <code>'.persona-email'</code>
+          p.
+            This selector is used to show the email address of the person who has just logged in. The element's <code>.text(email)</code>
+            is set so that you can show the user which email address they have just used. In some cases you may not want to do this since
+            the email address references an account with a user name/id, so this is just a helper if you need it. It is set as follows:
+            <code>$(showEmailSelector).text(email)</code>
+
+          h5.content-subhead loginJsonUrl
+          p.
+            Default: <code>'/login.json'</code>
+          p.
+            This is the URL which is hit when Persona Assistant has received the <code>assertion</code> inside the 
+            <code>onlogin</code> callback of the <code>navigator.id.watch</code>. The URL is loaded via an Ajax POST
+            request and contains the <code>assertion</code> so that the server can verify it.
+          p.
+            Examples of verifying the assertion can be found in the <a href="https://github.com/mozilla/browserid-cookbook/">BrowserID Cookbook</a>.
+          p.
+            The server should return a JSON data structure with the following fields:
+          pre.
+            {
+              ok    : false|true, // if true, the assertion was ok
+              email : '...',      // the verified email (only if 'ok' is true)
+              msg   : '...',      // the failure message (if 'ok' is false)
+            }
+          p.
+            Depending on whether <code>ok</code> is true or false, will mean whether we then use <code>email</code> or <code>msg</code>.
+
+          h5.content-subhead logoutUrl
+          p.
+            Default: <code>'/logout'</code>
+          p.
+            This URL is used to set the <code>window.location</code> when in 'classic' mode and the user clicks the logout button/link.
+            It isn't used in the regular flow when in 'application' mode, however it is used as a fallback if the <code>logoutJsonUrl</code>
+            fails (see below).
+          p.
+            This page should tear down your users session on the server, and perhaps redirect somewhere else (such as <code>/</code> or
+            <code>/home</code>.
+
+          h5.content-subhead logoutJsonUrl
+          p.
+            Default: <code>'/logout.json'</code>
+          p.
+            We hit this URL in 'application' mode only. This page should tear down the session on the server and return a data structure
+            such as the following:
+          pre.
+            {
+              ok : true
+            }
+          p.
+            Once the session has been torn down, we then perform other housekeeping such as deleting various elements from the page,
+            hiding any elements related to being logged in and showing any elements related to being logged out.
+          p.
+            It is used in 'application' mode only.
+
+          h5.content-subhead onLogoutRemoveSelector
+          p.
+            Default: <code>'.persona-logout-remove'</code>
+          p.
+            This selector will be used when we want to remove various elements from the page once the user has been logged out.
+          p.
+            It is used in 'application' mode only.
+
+          h4.content-suhead Events (application mode only)
+
+          h5.content-subhead onLogin
+          p.
+            Default: <code>function(result){}</code>
+          p.
+            This function is called once we know that a user has logged in successfully. It is also passed the data structure
+            which is returned from the <code>loginJsonUrl</code> (see above). This means that you can also pass back some extra
+            pieces of information, such as the username, user id, how many unread messages they have or anything else you would
+            like to show the user. You can also use this event to fire off other requests to the server or perform any other
+            DOM manipulation.
+
+          h5.content-subhead onLogout
+          p.
+            Default: <code>function(){}</code>
+          p.
+            This function is called once we know that a user has logged out successfully. It is not passed any extra data.
+
+          h5.content-subhead onLoading
+          p.
+            Default: <code>function(){}</code>
+          p.
+            This function is called once we start asking Persona if the user is logged in or not. It is not passed any extra data.
 
       .pure-u-1-3
         .l-box

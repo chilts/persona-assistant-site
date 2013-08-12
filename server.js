@@ -16,6 +16,7 @@ var express = require('express');
 var passgen = require('passgen');
 var request = require('superagent');
 var log2 = require('log2');
+var verify = require('browserid-verify')();
 
 process.title = 'persona-assistant.chilts.org';
 
@@ -93,26 +94,28 @@ app.post('/login.json', function(req, res) {
     log('POST /login.json: entry');
 
     var assertion = req.body.assertion;
+    verify(assertion, audience, function(err, email, response) {
+        console.log('(err,email,response)=', err, email, response);
+        if (err) {
+            req.session = null;
+            log2('err=' + err);
+            res.json({ ok : false, msg : 'There was an error with the request to the verifier.' });
+            return;
+        }
 
-    // curl -d "assertion=<ASSERTION>&audience=https://example.com:443" "https://verifier.login.persona.org/verify"
-    request
-        .post('https://verifier.login.persona.org/verify')
-        .send({ assertion : assertion, audience : audience })
-        .end(function(err, result) {
-            var body = result.res.body;
-            if ( body.status === 'okay' ) {
-                // save the email to the session
-                log2('body.status=okay : ' + JSON.stringify(body));
-                req.session.email = body.email;
-                res.json({ ok : true, email : 'andychilton@gmail.com' });
-            }
-            else {
-                req.session = null;
-                log2('reason=' + body.reason);
-                res.json({ ok : false, msg : body.reason });
-            }
-        })
-    ;
+        log2('verifier response = ' + JSON.stringify(response));
+
+        // now we need to check if the response was okay
+        if ( !email ) {
+            req.session = null;
+            res.json({ ok : false, msg : response.reason });
+            return;
+        }
+
+        // all looks ok, so log the user in, save the email to the session
+        req.session.email = email;
+        res.json({ ok : true, msg : 'Assertion Verified.', email : email });
+    });
 });
 
 app.get('/logout', function(req, res) {

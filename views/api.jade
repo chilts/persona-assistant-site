@@ -7,7 +7,7 @@ block content
     .pure-g-r.content-ribbon
       .pure-u-2-3
         .l-box
-          h4.content-suhead Defaults
+          h2.content-subhead Defaults
 
           p.
             The defaults for Persona Assistant are as follows. These are independent of which mode you specify.
@@ -25,22 +25,24 @@ block content
               logoutBtnSelector      : '.persona-logout',
               showEmailSelector      : '.persona-email'
               loginJsonUrl           : '/login.json',
-              logoutUrl              : '/logout'
+              logoutUrl              : '/logout',
+              onLoading              : function() {},
+              onCancel               : function() {}
             }
 
-          h5.content-subhead mode
+          h3.content-subhead mode
 
           p.
             The 'mode' parameter is essentially a set of defaults so that it is easy for you to set up
             Persona Assistant. The following options are set when you specify either <code>classic</code>
             or <code>application</code> mode.
 
-          h6.content-subhead classic
+          h4.content-subhead classic
 
           p.
             For <code>classic</code> mode, there are no extra defaults besides the regular defaults (above).
 
-          h6.content-subhead application
+          h4.content-subhead application
 
           p.
             For <code>application</code> mode, the following defaults are added to your options, which you may also
@@ -51,27 +53,58 @@ block content
               logoutJsonUrl          : '/logout.json',
               onLogoutRemoveSelector : '.persona-logout-remove',
               onLogin                : function(result) {},
-              onLogout               : function() {},
-              onLoading              : function() {}
+              onLogout               : function() {}
             }
 
-          h4.content-suhead Options
+          h2.content-subhead Config
 
-          h5.content-subhead loggedInSelector
+          p
+            | These options allow you to change certain properties of how Persona acts. Mostly the same list as 
+            a(href="https://developer.mozilla.org/en-US/docs/Web/API/navigator.id.request") navigator.id.request()
+            | .
+
+
+          h3.content-subhead siteName
+          p.
+            Plain text name of your site to show in the login's dialog box.
+
+          h3.content-subhead backgroundColor
+          p.
+            Changes the background color of the login's dialog box. Should be '#rgb' or '#rrggbb'.
+
+          h3.content-subhead siteLogo
+          p.
+            Absolute path to the site's logo. Must be served over https.
+
+          h3.content-subhead privacyPolicy and termsOfService
+          p.
+            Absolute path to the site's privacy policy. Must be served over https.
+          p.
+            Absolute path to the site's privacy policy. Must be served over https.
+          p.
+            Both of these must be provided or none at all.
+
+          h2.content-subhead Element Selectors
+
+          p.
+            These options allow you to change which elements you want to attach events onto (such as click) and
+            which elements you'd like to show or hide at various intervals.
+
+          h3.content-subhead loggedInSelector
           p.
             Default: <code>'.persona-logged-in'</code>
           p.
             This selector is used when showing which elements you want to show when a user is logged in. The selector
             is passed straight to <code>$(loggedInSelector).hide()</code>.
 
-          h5.content-subhead loadingSelector
+          h3.content-subhead loadingSelector
           p.
             Default: <code>'.persona-loading'</code>
           p.
             This selector is used when showing which elements you want to show when Persona is loading to see if a user
             is logged in or not. The selector is passed straight to <code>$(loadingSelecter).hide()</code>.
 
-          h5.content-subhead loggedOutSelector
+          h3.content-subhead loggedOutSelector
           p.
             Default: <code>'.persona-logged-out'</code>
           p.
@@ -80,21 +113,21 @@ block content
             not to have any of these elements on the screen, since you will probably be refreshing the entire page
             anyway (if the selector selects zero DOM elements, that's fine).
 
-          h5.content-subhead loginBtnSelector
+          h3.content-subhead loginBtnSelector
           p.
             Default: <code>'.persona-login'</code>
           p.
             This selector is used so that Persona Assistant knows which elements are login buttons/links. It attaches
             a <code>.click()</code> handler to the element(s) and instigates a login action.
 
-          h5.content-subhead logoutBtnSelector
+          h3.content-subhead logoutBtnSelector
           p.
             Default: <code>'.persona-logout'</code>
           p.
             This selector is used so that Persona Assistant knows which elements are logout buttons/links. It attaches
             a <code>.click()</code> handler to the element(s) and instigates a logout action.
 
-          h5.content-subhead showEmailSelector
+          h3.content-subhead showEmailSelector
           p.
             Default: <code>'.persona-email'</code>
           p.
@@ -103,7 +136,7 @@ block content
             the email address references an account with a user name/id, so this is just a helper if you need it. It is set as follows:
             <code>$(showEmailSelector).text(email)</code>
 
-          h5.content-subhead loginJsonUrl
+          h3.content-subhead loginJsonUrl
           p.
             Default: <code>'/login.json'</code>
           p.
@@ -123,7 +156,7 @@ block content
           p.
             Depending on whether <code>ok</code> is true or false, will mean whether we then use <code>email</code> or <code>msg</code>.
 
-          h5.content-subhead logoutUrl
+          h3.content-subhead logoutUrl
           p.
             Default: <code>'/logout'</code>
           p.
@@ -134,7 +167,7 @@ block content
             This page should tear down your users session on the server, and perhaps redirect somewhere else (such as <code>/</code> or
             <code>/home</code>.
 
-          h5.content-subhead logoutJsonUrl
+          h3.content-subhead logoutJsonUrl
           p.
             Default: <code>'/logout.json'</code>
           p.
@@ -150,7 +183,7 @@ block content
           p.
             It is used in 'application' mode only.
 
-          h5.content-subhead onLogoutRemoveSelector
+          h3.content-subhead onLogoutRemoveSelector
           p.
             Default: <code>'.persona-logout-remove'</code>
           p.
@@ -158,9 +191,11 @@ block content
           p.
             It is used in 'application' mode only.
 
-          h4.content-suhead Events (application mode only)
+          h2.content-subhead Events
 
-          h5.content-subhead onLogin
+          p These functions are called at specific times during the login/logout process (and sometimes in betwee).
+
+          h3.content-subhead onLogin
           p.
             Default: <code>function(result){}</code>
           p.
@@ -170,17 +205,23 @@ block content
             like to show the user. You can also use this event to fire off other requests to the server or perform any other
             DOM manipulation.
 
-          h5.content-subhead onLogout
+          h3.content-subhead onLogout
           p.
             Default: <code>function(){}</code>
           p.
             This function is called once we know that a user has logged out successfully. It is not passed any extra data.
 
-          h5.content-subhead onLoading
+          h3.content-subhead onLoading
           p.
             Default: <code>function(){}</code>
           p.
             This function is called once we start asking Persona if the user is logged in or not. It is not passed any extra data.
+
+          h3.content-subhead onCancel
+          p.
+            Default: <code>function(){}</code>
+          p.
+            This function is called once if the user cancels the Persona login process.
 
       .pure-u-1-3
         .l-box

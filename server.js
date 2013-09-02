@@ -14,7 +14,6 @@ var http = require('http');
 // npm
 var express = require('express');
 var passgen = require('passgen');
-var request = require('superagent');
 var log2 = require('log2');
 var verify = require('browserid-verify')();
 

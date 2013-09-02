@@ -28,6 +28,10 @@ echo "Installing npm packages ..."
 npm install --production
 echo
 
+echo "Fetching the latest jquery.persona-assistant.js ..."
+curl -s https://raw.github.com/chilts/jquery.persona-assistant.js/master/jquery.persona-assistant.js > public/s/js/jquery.persona-assistant.js
+echo
+
 echo "Setting up various directories ..."
 sudo mkdir -p /var/log/persona-assistant/
 sudo chown $THIS_USER:$THIS_GROUP /var/log/persona-assistant/

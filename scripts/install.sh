@@ -25,7 +25,7 @@ THIS_NODE=`which node`
 ## ----------------------------------------------------------------------------
 
 echo "Installing npm packages ..."
-npm install
+npm install --production
 echo
 
 echo "Setting up various directories ..."

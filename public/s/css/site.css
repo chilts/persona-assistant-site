@@ -100,10 +100,12 @@ body .primary-button {
     float: right;
 }
 
-.profile a.persona-login {
+.profile a {
     margin: 0;
+    display: inline;
+    padding: 0;
 }
 
-.profile a.persona-login img {
+.profile a img {
     vertical-align: middle;
 }

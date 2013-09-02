@@ -111,9 +111,23 @@ app.post('/login.json', function(req, res) {
             return;
         }
 
-        // all looks ok, so log the user in, save the email to the session
+        // if there is no session, set up a blank 'emails' list
+        if ( !req.session.email ) {
+            // Note: this action may _change_ the user's email address rather
+            // than _adding_ a new one. That's up to you to decide!
+            req.session.emails = {};
+        }
+
+        // now set the default 'email' and add this one to the 'emails'
         req.session.email = email;
-        res.json({ ok : true, msg : 'Assertion Verified.', email : email });
+        req.session.emails[email] = true;
+
+        res.json({
+            ok     : true,
+            msg    : 'Assertion Verified.',
+            email  : req.session.email,
+            emails : Object.keys(req.session.emails),
+        });
     });
 });
 

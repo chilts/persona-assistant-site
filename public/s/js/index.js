@@ -1,7 +1,8 @@
 $(function() {
 
     $.personaAssistant({
-        mode : 'application'
+        mode     : 'application',
+        siteName : 'Persona Assistant Demo/Docs Site'
     });
 
 });

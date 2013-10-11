@@ -47,7 +47,12 @@ app.use(function(req, res, next) {
 });
 
 var oneDay = 24 * 60 * 60 * 1000; // 86400000
-app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
+if ( process.env.NODE_ENV === 'production' ) {
+    app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
+}
+else {
+    app.use(express.static(__dirname + '/public'));
+}
 
 app.use(express.logger());
 app.use(express.bodyParser());
